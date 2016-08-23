@@ -18,13 +18,13 @@ export function activate(context: vscode.ExtensionContext) {
     // The commandId parameter must match the command field in package.json
     let disposable = vscode.commands.registerCommand('extension.insertFile', () => {
         // The code you place here will be executed every time your command is executed
-        vscode.window.showInputBox().then((text) => {
-            let dirname = path.dirname(text);
-            if (dirname == ".") {
-                dirname = vscode.workspace.rootPath;
-            }
+        vscode.window.showInputBox({placeHolder:"Please input file path.", prompt:""}).then((text) => {
 
-            let filepath:string  =  dirname + "/" +  path.basename(text);
+            let filepath:string  =  text;
+            if (!path.isAbsolute(text)) {
+                filepath = vscode.workspace.rootPath + '/' + text;
+            }
+            
             fs.readFile(filepath, (err, data)=>{
                 if (err) {
                     vscode.window.showErrorMessage(err.message);
