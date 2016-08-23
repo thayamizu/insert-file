@@ -1,4 +1,11 @@
-out/*
-node_modules/*
+#ignore folder
+/out/
+/node_modules/
 
+#ignore specific files.
+.BROWSE.VC.DB
+.BROWSE.VC.DB-shm
+.BROWSE.VC.DB-wal
+
+#ignore extension.
 *.vsix
