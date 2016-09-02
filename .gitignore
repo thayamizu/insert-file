@@ -1,6 +1,7 @@
 #ignore folder
 /out/
 /node_modules/
+/.vscode-test
 
 #ignore specific files.
 .BROWSE.VC.DB
