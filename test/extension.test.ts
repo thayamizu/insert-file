@@ -9,17 +9,15 @@ import * as assert from 'assert';
 // You can import and use all API from the 'vscode' module
 // as well as import your extension to test it
 import * as vscode from 'vscode';
-import * as extension from '../src/InsertFile';
+import * as fs from 'fs';
+import {InsertFile} from '../src/InsertFile';
 
-let insert_file = new extension.InsertFile.InsertFileCommand("");
 // Defines a Mocha test suite to group tests of similar kind together
 suite("Extension Tests", () => {
-   //insert_file.showFileDialog();
-
-    // Defines a Mocha unit test
-    test("Something 1", () => {
-           insert_file.showFileDialog();
-        assert.equal(-1, [1, 2, 3].indexOf(5));
-        assert.equal(-1, [1, 2, 3].indexOf(0));
+    var command = new InsertFile.InsertFileCommand();
+    
+    suiteSetup(() => {
+          fs.writeFileSync("C:\\Users\\hayamizu\\test.txt","hello");
     });
+
 });
