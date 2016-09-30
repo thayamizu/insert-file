@@ -2,7 +2,7 @@
     "name": "insert-file",
     "displayName": "Insert File",
     "description": "insert a file contents in your active editor.",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "publisher": "crest",
     "engines": {
         "vscode": "^1.0.0"
@@ -11,14 +11,30 @@
         "Other"
     ],
     "activationEvents": [
-        "onCommand:extension.insertFile"
+        "*"
     ],
     "main": "./out/src/extension",
     "contributes": {
         "commands": [{
             "command": "extension.insertFile",
-            "title": "Insert File"
-        }]
+            "title": "Insert File:Insert File"
+        },
+        {
+            "command": "extension.insertAsLink",
+            "title": "Insert File:Insert As Link"
+        }],
+        "configuration": {
+            "type": "object",
+            "title": "VSCode InsertFile configuration",
+            
+            "properties": {
+                "insert-file.encoding": {
+                "type": "string",
+                "default": "utf-8",
+                "description": "default file encoding"
+                }
+            }
+        }
     },
     "scripts": {
         "vscode:prepublish": "node ./node_modules/vscode/bin/compile",
