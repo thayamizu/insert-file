@@ -14,10 +14,4 @@ import {InsertFile} from '../src/InsertFile';
 
 // Defines a Mocha test suite to group tests of similar kind together
 suite("Extension Tests", () => {
-    var command = new InsertFile.InsertFileCommand();
-    
-    suiteSetup(() => {
-          fs.writeFileSync("C:\\Users\\hayamizu\\test.txt","hello");
-    });
-
 });
