@@ -8,7 +8,7 @@ This extension provides 'insert-file' command.
 If your want to insert a file in your editing text, enter 'insert-file' command in command pallet and select a file 
 then selected file contents will insert into your editing text.
 
-![operation](img/img1.gif)
+![operation](https://raw.githubusercontent.com/thayamizu/insert-file/master/img/img1.gif)
 
 ## Requirements
 
