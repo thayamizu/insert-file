@@ -1,6 +1,6 @@
 # insert-file README
 
-This is a simple extension for Visual Studio Code. This extension provides that insert a file in your active text editor.
+This is a simple extension for Visual Studio Code. This extension provides that insert a file contents in active editor.
 
 ## Features
 This extension provides 'insert-file' command. 
@@ -8,9 +8,11 @@ This extension provides 'insert-file' command.
 If your want to insert a file in your editing text, enter 'insert-file' command in command pallet and select a file 
 then selected file contents will insert into your editing text.
 
+![operation](img/img1.gif)
+
 ## Requirements
 
-The computer installed Visual Studio Code.
+Visual Studio Code 1.0 later
 
 
 ## Release Notes
@@ -20,6 +22,11 @@ Users appreciate release notes as you update your extension.
 ### 0.0.1
 
 Initial release of insert-file.
+
+### 0.0.2
+BugFix
+
+Add InsertFileAsMakrdownLink Command.
 
 -----------------------------------------------------------------------------------------------------------
 
