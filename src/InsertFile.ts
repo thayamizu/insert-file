@@ -21,7 +21,7 @@ export namespace InsertFile {
 			try {
 				this._configuration = new Configuration();
 			} catch (error) {
-				vscode.window.showErrorMessage('extension initialization is failed.');
+				vscode.window.showErrorMessage('extension insert-file : initialization is failed.');
 			}
 		}
 
@@ -49,7 +49,6 @@ export namespace InsertFile {
 				return;
 			}
 
-			//check filePath
             let filePath = `${rootPath}/${fileName}`;
             let text = this.getFileContents(filePath);
 			
