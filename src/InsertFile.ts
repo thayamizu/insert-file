@@ -36,15 +36,7 @@ export namespace InsertFile {
 		 * insertFileContents
 		 */
 		public insertFileContents(fileName : string) {
-			//check rootPath 
-            let rootPath = vscode.workspace.rootPath;
-			if (rootPath == "") {
-				vscode.window.showErrorMessage("Please Open Folder...");
-				return;
-			}
-
-            let filePath = `${rootPath}/${fileName}`;
-            let text = this.getFileContents(filePath);
+			let text = this.getFileContents(fileName);
 			
 			//inser contents
 			this.editText(text);

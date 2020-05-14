@@ -16,30 +16,39 @@ export function activate(context: vscode.ExtensionContext) {
     let command = new InsertFile.InsertFileCommand();
     command.initialize();
 
-    const inputBoxOption = {placeHolder:"Please input file path.", prompt:""};
+    const dialogOptions:vscode.OpenDialogOptions = {
+        canSelectMany:false
+    };
+
+    const inputBoxOptions : vscode.InputBoxOptions = {
+        placeHolder:"Please input alternative name.",
+        prompt:""
+    }
 
     // The command has been defined in the package.json file
     // Now provide the implementation of the command with  registerCommand
     // The commandId parameter must match the command field in package.json
     let insertFile = vscode.commands.registerCommand('extension.insertFile', () => {
         // The code you place here will be executed every time your command is executed
-        let thenable = vscode.window.showInputBox(inputBoxOption);
-        thenable.then((path)=>{
-                if (path == undefined) {
+        let thenable = vscode.window.showOpenDialog(dialogOptions);
+        thenable.then((paths)=>{
+                if (!paths) {
                     return;
                 }
-                command.insertFileContents(path);
+                const path = paths[0];
+                command.insertFileContents(path.path);
         });
  
     });
 
     let insertLink = vscode.commands.registerCommand('extension.insertAsLink', () => {
-        let thenable = vscode.window.showInputBox(inputBoxOption);
-        thenable.then(path => {
-            let linkThenable = vscode.window.showInputBox(inputBoxOption);
+        let thenable = vscode.window.showOpenDialog(dialogOptions);
+        thenable.then(paths => {
+            let linkThenable = vscode.window.showInputBox(inputBoxOptions);
             linkThenable.then(link  => {
-                if (path && link) {
-                  command.insertFileAsLink(path, link);
+                if (paths && link) {
+                    const path = paths[0];
+                  command.insertFileAsLink(path.path, link);
                 }
             });
         });
