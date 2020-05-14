@@ -35,10 +35,12 @@ export function activate(context: vscode.ExtensionContext) {
 
     let insertLink = vscode.commands.registerCommand('extension.insertAsLink', () => {
         let thenable = vscode.window.showInputBox(inputBoxOption);
-        thenable.then((path)=>{
+        thenable.then(path => {
             let linkThenable = vscode.window.showInputBox(inputBoxOption);
-            linkThenable.then(link=> {
-                command.insertFileAsLink(path, link);
+            linkThenable.then(link  => {
+                if (path && link) {
+                  command.insertFileAsLink(path, link);
+                }
             });
         });
     });

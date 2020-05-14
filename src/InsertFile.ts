@@ -11,31 +11,25 @@ export namespace InsertFile {
 		/**
 		 * command configuration
 		 */
-		private _configuration : Configuration;
+		private _configuration : Configuration = new Configuration();
 
 		/**
 		 * constructor
 		 */
 		public constructor() {
-			let result = true;
-			try {
-				this._configuration = new Configuration();
-			} catch (error) {
-				vscode.window.showErrorMessage('extension insert-file : initialization is failed.');
-			}
+			
 		}
 
 		/**
 		 * initialize
 		 */
 		public initialize() {
-			let configuration = vscode.workspace.getConfiguration("insert-file");
-			let setValue = configuration.get<string>("encoding");
-			if (setValue == "") {
-				setValue = "utf-8";
+			const configuration = vscode.workspace.getConfiguration("insert-file");
+			const setValue = configuration.get<BufferEncoding>("encoding");
+			if (setValue) {
+				this._configuration.encoding = setValue;
 			}
 
-			this._configuration.encoding = setValue;
 		}
 
 		/**
@@ -82,7 +76,7 @@ export namespace InsertFile {
 		/**
 		 * get file as link for markdown
 		 */
-		private getFileAsMarkdownLink(filePath : string, linkName) {
+		private getFileAsMarkdownLink(filePath : string, linkName: string) {
 			const link = `[${linkName}](${filePath})`;
 			return link;
 		}
@@ -92,6 +86,10 @@ export namespace InsertFile {
 		 */
 		private editText(text : string ) {
 			let editor = vscode.window.activeTextEditor;
+			if (!editor) {
+				return
+			}
+
 			let insertPosition : vscode.Position = editor.selection.active;
 
 			//edit text
@@ -99,6 +97,7 @@ export namespace InsertFile {
 				edit.insert(insertPosition, text);
 			});		
 		}
+
   	}
 
 	/**
@@ -109,11 +108,19 @@ export namespace InsertFile {
 		/**
 		 * default file encoding
 		 */
-		private _encoding : string;
-		public get encoding() : string {
+		private _encoding : BufferEncoding;
+
+		/**
+		 *
+		 */
+		constructor() {
+			this._encoding = "utf-8"
+			
+		}
+		public get encoding() : BufferEncoding {
 			return this._encoding;
 		}
-		public set encoding(v : string) {
+		public set encoding(v : BufferEncoding) {
 			this._encoding = v;
 		}		
 	}
