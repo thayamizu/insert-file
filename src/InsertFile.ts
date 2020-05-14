@@ -1,8 +1,7 @@
 'use strict'
-import * as fs from 'fs';
+import { readFile } from 'fs';
+import { promisify } from 'util'
 import * as vscode from 'vscode';
-
-export namespace InsertFile {
 
 	/**
 	 * InsertFile Command
@@ -17,26 +16,20 @@ export namespace InsertFile {
 		 * constructor
 		 */
 		public constructor() {
-			
-		}
-
-		/**
-		 * initialize
-		 */
-		public initialize() {
 			const configuration = vscode.workspace.getConfiguration("insert-file");
 			const setValue = configuration.get<BufferEncoding>("encoding");
 			if (setValue) {
 				this._configuration.encoding = setValue;
 			}
-
 		}
 
 		/**
 		 * insertFileContents
+		 * @param fileName
+		 * @return void
 		 */
-		public insertFileContents(fileName : string) {
-			let text = this.getFileContents(fileName);
+		public async insertFileContents(fileName : string) {
+			let text = await this.getFileContents(fileName);
 			
 			//inser contents
 			this.editText(text);
@@ -44,6 +37,9 @@ export namespace InsertFile {
 
 		/**
 		 * insertFileAsLink
+		 * @param filePath
+		 * @param linkName
+		 * @return void
 		 */
 		public insertFileAsLink(filePath : string, linkName : string) {
             let text = this.getFileAsMarkdownLink(filePath, linkName);
@@ -52,12 +48,14 @@ export namespace InsertFile {
 
 		/**
 		 * get file contents
-		 * param filePath : string
+		 * @param filePath
 		 */
-		private getFileContents(filePath : string) {
-			let text : string = "";
+		private async getFileContents(filePath : string) {
+
+			let text = ""
 			try {
-				text =  fs.readFileSync(filePath, this._configuration.encoding);
+				const readFileSync = promisify(readFile)
+				text = await readFileSync(filePath, this._configuration.encoding)
 			} catch (error) {
 				vscode.window.showErrorMessage(error.message);
 			}
@@ -67,29 +65,30 @@ export namespace InsertFile {
 
 		/**
 		 * get file as link for markdown
+		 * @param filePath
+		 * @param linkName
 		 */
 		private getFileAsMarkdownLink(filePath : string, linkName: string) {
-			const link = `[${linkName}](${filePath})`;
-			return link;
+			return `[${linkName}](${filePath})`;
 		}
 
 		/**
-		 * editText
+		 * edit editor text
+		 * @param text
+		 * @return void
 		 */
 		private editText(text : string ) {
-			let editor = vscode.window.activeTextEditor;
+			const editor = vscode.window.activeTextEditor;
 			if (!editor) {
 				return
 			}
 
-			let insertPosition : vscode.Position = editor.selection.active;
-
 			//edit text
 			editor.edit(edit => {
+			    const insertPosition : vscode.Position = editor.selection.active;
 				edit.insert(insertPosition, text);
 			});		
 		}
-
   	}
 
 	/**
@@ -103,17 +102,29 @@ export namespace InsertFile {
 		private _encoding : BufferEncoding;
 
 		/**
-		 *
+		 * constructor
 		 */
 		constructor() {
 			this._encoding = "utf-8"
 			
 		}
+
+		/**
+		 * get encoding
+		 *
+		 * @type {BufferEncoding}
+		 * @memberof Configuration
+		 */
 		public get encoding() : BufferEncoding {
 			return this._encoding;
 		}
+
+		/**
+		 * set encoding
+		 *
+		 * @memberof Configuration
+		 */
 		public set encoding(v : BufferEncoding) {
 			this._encoding = v;
 		}		
 	}
-}

@@ -10,7 +10,7 @@ import * as assert from 'assert';
 // as well as import your extension to test it
 import * as mocha from 'mocha';
 import * as fs from 'fs';
-import {InsertFile} from '../src/InsertFile';
+import {InsertFileCommand} from '../src/InsertFile';
 
 // Defines a Mocha test suite to group tests of similar kind together
 mocha.setup("tdd")

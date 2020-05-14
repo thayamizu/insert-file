@@ -2,9 +2,8 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
-import * as fs from 'fs';
-import * as path from 'path';
-import {InsertFile} from './InsertFile';
+
+import {InsertFileCommand} from './InsertFile';
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
@@ -13,8 +12,7 @@ export function activate(context: vscode.ExtensionContext) {
     // This line of code will only be executed once when your extension is activated
     console.log('Congratulations, your extension "insert-file" is now active!');
 
-    let command = new InsertFile.InsertFileCommand();
-    command.initialize();
+    const command = new InsertFileCommand();
 
     const dialogOptions:vscode.OpenDialogOptions = {
         canSelectMany:false
@@ -28,30 +26,29 @@ export function activate(context: vscode.ExtensionContext) {
     // The command has been defined in the package.json file
     // Now provide the implementation of the command with  registerCommand
     // The commandId parameter must match the command field in package.json
-    let insertFile = vscode.commands.registerCommand('extension.insertFile', () => {
+    let insertFile = vscode.commands.registerCommand('extension.insertFile', async () => {
         // The code you place here will be executed every time your command is executed
-        let thenable = vscode.window.showOpenDialog(dialogOptions);
-        thenable.then((paths)=>{
-                if (!paths) {
-                    return;
-                }
-                const path = paths[0];
-                command.insertFileContents(path.path);
-        });
- 
+        const entries = await vscode.window.showOpenDialog(dialogOptions);
+        if (!entries) {
+            return;
+        }
+
+        const uri = entries[0];
+        command.insertFileContents(uri.path);
     });
 
-    let insertLink = vscode.commands.registerCommand('extension.insertAsLink', () => {
-        let thenable = vscode.window.showOpenDialog(dialogOptions);
-        thenable.then(paths => {
-            let linkThenable = vscode.window.showInputBox(inputBoxOptions);
-            linkThenable.then(link  => {
-                if (paths && link) {
-                    const path = paths[0];
-                  command.insertFileAsLink(path.path, link);
-                }
-            });
-        });
+    let insertLink = vscode.commands.registerCommand('extension.insertAsLink', async () => {
+        const entries = await vscode.window.showOpenDialog(dialogOptions);
+        if (!entries) {
+            return;
+        }
+        const linkName = await vscode.window.showInputBox(inputBoxOptions);
+        if (linkName == undefined || linkName == null) {
+            return
+        }
+        
+        const uri = entries[0];
+        command.insertFileAsLink(uri.path, linkName)
     });
 
 
