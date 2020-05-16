@@ -18,12 +18,21 @@
         "commands": [
             {
                 "command": "extension.insertFile",
-                "title": "Insert File:Insert File"
+                "title": "Insert File:Insert file"
             },
             {
                 "command": "extension.insertAsLink",
-                "title": "Insert File:Insert As Link"
+                "title": "Insert File:Insert as link"
+            },
+            {
+                "command": "extension.insertAsBlock",
+                "title": "Insert File:Insert file contents as code block"
+            },
+            {
+                "command": "extension.insertAsImageLink",
+                "title": "Insert File:Insert link as image link"
             }
+
         ],
         "configuration": {
             "type": "object",

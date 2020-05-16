@@ -1,5 +1,6 @@
 "use strict";
 import { readFile } from "fs";
+import { relative } from "path";
 import { promisify } from "util";
 import * as vscode from "vscode";
 
@@ -29,9 +30,20 @@ export class InsertFileCommand {
    * @return void
    */
   public async insertFileContents(fileName: string) {
-    let text = await this.getFileContents(fileName);
+    const text = await this.getFileContents(fileName);
+    const contents = `${text}\n`;
+    //insert contents
+    this.editText(text);
+  }
 
-    //inser contents
+  /**
+   * insertFileContentsAsCodeBlock
+   * @param fileName
+   * @return void
+   */
+  public async insertAsBlock(fileName: string) {
+    const contents = await this.getFileContents(fileName);
+    const text = `\`\`\`\n${contents}\n\`\`\`\n`;
     this.editText(text);
   }
 
@@ -41,11 +53,21 @@ export class InsertFileCommand {
    * @param linkName
    * @return void
    */
-  public insertFileAsLink(filePath: string, linkName: string) {
-    let text = this.getFileAsMarkdownLink(filePath, linkName);
+  public insertAsLink(filePath: string, linkName: string) {
+    const text = this.getFileAsMarkdownLink(filePath, linkName);
     this.editText(text);
   }
 
+  /**
+   * insertFileAsImageLink
+   * @param filePath
+   * @param linkName
+   * @return void
+   */
+  public insertAsImageLink(filePath: string, linkName: string) {
+    const text = `!${this.getFileAsMarkdownLink(filePath, linkName)}`;
+    this.editText(text);
+  }
   /**
    * get file contents
    * @param filePath
@@ -68,7 +90,9 @@ export class InsertFileCommand {
    * @param linkName
    */
   private getFileAsMarkdownLink(filePath: string, linkName: string) {
-    return `[${linkName}](${filePath})`;
+    const root: string = vscode.workspace.rootPath as string;
+    const relativePath = relative(root, filePath);
+    return `[${linkName}](${relativePath})`;
   }
 
   /**
