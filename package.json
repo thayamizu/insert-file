@@ -32,7 +32,6 @@
                 "command": "extension.insertAsImageLink",
                 "title": "Insert File:Insert link as image link"
             }
-
         ],
         "configuration": {
             "type": "object",
@@ -48,16 +47,23 @@
     },
     "scripts": {
         "clean": "rm -rf out",
-        "vscode:prepublish": "tsc -p ./",
-        "compile": "tsc -watch -p ./",
-        "postinstall": "node ./node_modules/vscode/bin/install"
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
+        "postinstall": "node ./node_modules/vscode/bin/install",
+        "pretest": "npm run compile"
     },
     "devDependencies": {
+        "@types/glob": "^7.1.1",
         "@types/mocha": "^7.0.2",
         "@types/node": "^14.0.1",
         "@types/vscode": "^1.45.0",
+        "glob": "^7.1.6",
+        "istanbul": "^0.4.5",
         "mocha": "^7.1.2",
+        "remap-istanbul": "^0.13.0",
         "typescript": "^3.9.2",
-        "vscode": "^1.1.37"
+        "vscode": "^1.1.37",
+        "vscode-test": "^1.3.0"
     }
 }
