@@ -2,7 +2,7 @@
     "name": "insert-file",
     "displayName": "Insert File",
     "description": "insert a file contents in your active editor.",
-    "version": "1.0.0",
+    "version": "0.9.0",
     "publisher": "crest",
     "engines": {
         "vscode": "^1.0.0"
@@ -18,19 +18,19 @@
         "commands": [
             {
                 "command": "extension.insertFile",
-                "title": "Insert File:Insert file contents"
+                "title": "Insert File:Insert File Contents"
             },
             {
                 "command": "extension.insertAsLink",
-                "title": "Insert File:Insert as link"
+                "title": "Insert File:Insert as Link"
             },
             {
                 "command": "extension.insertAsBlock",
-                "title": "Insert File:Insert file contents as code block"
+                "title": "Insert File:Insert File Contents as Code Block"
             },
             {
                 "command": "extension.insertAsImageLink",
-                "title": "Insert File:Insert as image link"
+                "title": "Insert File:Insert as Image Link"
             }
         ],
         "configuration": {
