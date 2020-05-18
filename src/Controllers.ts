@@ -25,7 +25,7 @@ export namespace Controllers {
     }
 
     entries.forEach(async (uri: vscode.Uri) => {
-      command.insertFileContents(uri.path);
+      command.insertFileContents(uri.fsPath);
     });
   };
 
@@ -37,7 +37,7 @@ export namespace Controllers {
     }
 
     entries.forEach(async (uri: vscode.Uri) => {
-      command.insertAsBlock(uri.path);
+      command.insertAsBlock(uri.fsPath);
     });
   };
 
@@ -53,7 +53,7 @@ export namespace Controllers {
         return;
       }
 
-      command.insertAsLink(uri.path, linkName);
+      command.insertAsLink(uri.fsPath, linkName);
     });
   };
 
@@ -68,7 +68,7 @@ export namespace Controllers {
         return;
       }
 
-      command.insertAsImageLink(uri.path, linkName);
+      command.insertAsImageLink(uri.fsPath, linkName);
     });
   };
 }

@@ -2,7 +2,7 @@
     "name": "insert-file",
     "displayName": "Insert File",
     "description": "insert a file contents in your active editor.",
-    "version": "0.0.2",
+    "version": "1.0.0",
     "publisher": "crest",
     "engines": {
         "vscode": "^1.0.0"
@@ -18,7 +18,7 @@
         "commands": [
             {
                 "command": "extension.insertFile",
-                "title": "Insert File:Insert file"
+                "title": "Insert File:Insert file contents"
             },
             {
                 "command": "extension.insertAsLink",
@@ -30,7 +30,7 @@
             },
             {
                 "command": "extension.insertAsImageLink",
-                "title": "Insert File:Insert link as image link"
+                "title": "Insert File:Insert as image link"
             }
         ],
         "configuration": {

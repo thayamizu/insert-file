@@ -7,6 +7,6 @@ import {InsertFileCommand} from '../../Command';
 
 suite('Extension Test Suite', () => {
 	test('Sample Test',  () => {
-    assert(true, true)
+    assert(true==true)
   });
 });
