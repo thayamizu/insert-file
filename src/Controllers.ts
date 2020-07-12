@@ -71,4 +71,9 @@ export namespace Controllers {
       command.insertAsImageLink(uri.fsPath, linkName);
     });
   };
+
+  export const Batch = async () => {
+    console.log('call batch!');
+    command.batch()
+  }
 }

@@ -28,12 +28,17 @@ export function activate(context: vscode.ExtensionContext) {
     ExtensionCommandNames.InsertAsImageLink,
     Controllers.InsertAsImageLink
   );
+  const batch = vscode.commands.registerCommand(
+    ExtensionCommandNames.Batch,
+    Controllers.Batch
+  )
 
   context.subscriptions.push(insertFile);
   context.subscriptions.push(insertFileAsBlock);
   context.subscriptions.push(insertLink);
   context.subscriptions.push(insertLinkAsImage);
+  context.subscriptions.push(batch)
 }
 
 // this method is called when your extension is deactivated
-export function deactivate() {}
+export function deactivate() { }

@@ -1,8 +1,9 @@
 "use strict";
 import { readFile } from "fs";
-import { relative } from "path";
+import { relative, join } from "path";
 import { promisify } from "util";
 import * as vscode from "vscode";
+import * as glob from "glob"
 
 /**
  * InsertFile Command
@@ -21,6 +22,14 @@ export class InsertFileCommand {
     const setValue = configuration.get<BufferEncoding>("encoding");
     if (setValue) {
       this._configuration.encoding = setValue;
+    }
+    const glob = configuration.get<string>("glob");
+    if (glob) {
+      this._configuration.glob = glob;
+    }
+    const mode = configuration.get<string>("mode");
+    if (mode) {
+      this._configuration.mode = mode;
     }
   }
 
@@ -68,6 +77,19 @@ export class InsertFileCommand {
     const text = `!${this.getFileAsMarkdownLink(filePath, linkName)}`;
     this.editText(text);
   }
+
+  public batch() {
+    console.log('execute batch!');
+    const root: string = vscode.workspace.rootPath as string;
+    const path = join(root, this._configuration.glob)
+    console.log(`${root} ${path}`);
+    console.log(path)
+    glob.sync(path).forEach(async (name: string) => {
+      const content = await this.getFileContents(name)
+      this.editText(content)
+    })
+  }
+
   /**
    * get file contents
    * @param filePath
@@ -128,6 +150,8 @@ export class Configuration {
    */
   constructor() {
     this._encoding = "utf-8";
+    this._glob = ""
+    this._mode = ""
   }
 
   /**
@@ -148,4 +172,23 @@ export class Configuration {
   public set encoding(v: BufferEncoding) {
     this._encoding = v;
   }
+
+
+  private _glob: string;
+  public get glob(): string {
+    return this._glob;
+  }
+  public set glob(v: string) {
+    this._glob = v;
+  }
+
+
+  private _mode: string;
+  public get mode(): string {
+    return this._mode;
+  }
+  public set mode(v: string) {
+    this._mode = v;
+  }
+
 }

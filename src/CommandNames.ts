@@ -6,4 +6,6 @@ export enum ExtensionCommandNames {
   InsertFileAsBlock = "extension.insertAsBlock",
   InsertAsLink = "extension.insertAsLink",
   InsertAsImageLink = "extension.insertAsImageLink",
+
+  Batch = "extension.insertBatch"
 }
