@@ -52,7 +52,7 @@
                 },
                 "insert-file.glob": {
                     "type": "string",
-                    "default": "**/*.md",
+                    "default": "**/*.txt",
                     "description": "glob"
                 }
             }

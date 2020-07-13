@@ -1,6 +1,6 @@
 "use strict";
 import { readFile } from "fs";
-import { relative, join } from "path";
+import { relative, join, resolve } from "path";
 import { promisify } from "util";
 import * as vscode from "vscode";
 import * as glob from "glob"
@@ -83,11 +83,18 @@ export class InsertFileCommand {
     const root: string = vscode.workspace.rootPath as string;
     const path = join(root, this._configuration.glob)
     console.log(`${root} ${path}`);
-    console.log(path)
-    glob.sync(path).forEach(async (name: string) => {
-      const content = await this.getFileContents(name)
-      this.editText(content)
-    })
+
+
+    (async () => {
+      const collection = glob.sync(path)
+      for (let item of collection) {
+        const content = await this.getFileContents(item)
+        console.log('start')
+        await this.editTextASync(content)
+        console.log('end')
+
+      }
+    })()
   }
 
   /**
@@ -127,12 +134,45 @@ export class InsertFileCommand {
     if (!editor) {
       return;
     }
+    const tail: number = editor.document.lineCount
+    const position: vscode.Position = new vscode.Position(tail, 0)
 
     //edit text
     editor.edit((edit) => {
-      const insertPosition: vscode.Position = editor.selection.active;
-      edit.insert(insertPosition, text);
-    });
+
+      console.log(`${position.line}`)
+      edit.insert(position, `${text}\n`);
+    })
+
+    editor.document.save();
+  }
+
+  /**
+ * edit editor text
+ * @param text
+ * @return void
+ */
+  private async editTextASync(text: string) {
+    const editor = vscode.window.activeTextEditor;
+    if (!editor) {
+      return;
+    }
+
+    //edit text
+    return new Promise((resolve) => {
+      editor.edit((edit) => {
+        const position = editor.selection.active
+        console.log(`${position.line}`)
+        text += "\n"
+        edit.insert(position, text)
+
+      }).then(result => {
+        editor.document.save()
+        resolve(result)
+      })
+
+    })
+
   }
 }
 
