@@ -64,6 +64,6 @@
         "remap-istanbul": "^0.13.0",
         "typescript": "^3.9.2",
         "vscode": "^1.1.37",
-        "vscode-test": "^1.3.0"
+        "vscode-test": "1.6.1"
     }
 }
